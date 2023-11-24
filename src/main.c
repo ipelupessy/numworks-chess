@@ -154,7 +154,7 @@ int selected_own_color(struct cursor cur)
 void setlevel () {
   char msg[20];
   sprintf(msg,"Setting level %d", (int) Level);
-  statusmsg(msg,1000);
+  statusmsg(msg,500);
   switch (Level) {
       case 1 :
           TCmoves = 60;
@@ -259,7 +259,7 @@ void mainloop()
         {
           if(!generate_move(cur,sel, move_buffer)) 
           {
-            show_illegal_move(cur,1000);
+            show_illegal_move(cur,250);
             sel.active=false;
           }
           else
@@ -316,7 +316,7 @@ void mainloop()
     done=rootflags()&0x0004;
     done=done+mate; //todo count material
     if(mate && move_buffer[4]=='+') busymsg(true, "Mate");
-    if(rootflags()&0x0004 || (mate && move_buffer[4]!='+')) busymsg(true, "Draw");
+    if(rootflags()&0x0004 || (mate && move_buffer[4]!='+')) busymsg(true, "Done"); // sometimes it sees draw as mate?
   }
 
 }
