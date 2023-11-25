@@ -44,26 +44,26 @@ void busymsg(bool show, char * msg) {
   }
 }
 
-
+void drawtile(int i,int j)
+{
+  int pmap[7]={0,4,3,1,6,5,2} ;// mapping from gnuchess order to pieces.h order
+  int c,p, offset, index;
+  eadk_color_t * tile;
+  index=(opponent==white) ? (i+(7-j)*8) : (7-i+j*8);
+  c=color[index];
+  p=board[index];
+  offset=13*((i+j+1)%2); // color of tile
+  offset+=((c==white) ? 6 : 0); // color of piece
+  offset+=pmap[p]; // piece
+  tile=((eadk_color_t*) pieces_r5g6b5)+(offset*TILESIZE*TILESIZE);
+  eadk_display_push_rect((eadk_rect_t){XOFF+i*TILESIZE,YOFF+j*TILESIZE,TILESIZE,TILESIZE}, tile);
+}
 
 void drawboard()
 {
-  int pmap[7]={0,4,3,1,6,5,2} ;// mapping from gnuchess order to pieces.h order
-  int c,p, offset;
-  eadk_color_t * tile;
-  int index=(opponent==white)?0:63;
-  for(int j=7;j>-1;j--)
+  for(int j=0;j<8;j++)
     for(int i=0;i<8;i++)
-    {
-      c=color[index];
-      p=board[index];
-      offset=13*((i+j+1)%2); // color of tile
-      offset+=((c==white) ? 6 : 0); // color of piece
-      offset+=pmap[p]; // piece
-      tile=((eadk_color_t*) pieces_r5g6b5)+(offset*TILESIZE*TILESIZE);
-      eadk_display_push_rect((eadk_rect_t){XOFF+i*TILESIZE,YOFF+j*TILESIZE,TILESIZE,TILESIZE}, tile);
-      index+=(opponent==white)?1:-1;
-    }
+      drawtile(i,j);
 }
 
 void switch_player()
@@ -235,24 +235,24 @@ void mainloop()
         update=true;
         break;
       case eadk_event_left:
+        if(cur.active) drawtile(cur.i,7-cur.j);
         if(cur.i>0) cur.i-=1;
         cur.active=true;
-        update=true;
         break;
       case eadk_event_right:
+        if(cur.active) drawtile(cur.i,7-cur.j);
         if(cur.i<7) cur.i+=1;
         cur.active=true;
-        update=true;
         break;
       case eadk_event_up:
+        if(cur.active) drawtile(cur.i,7-cur.j);
         if(cur.j<7) cur.j+=1;
         cur.active=true;
-        update=true;
         break;
       case eadk_event_down:
+        if(cur.active) drawtile(cur.i,7-cur.j);
         if(cur.j>0) cur.j-=1;
         cur.active=true;
-        update=true;
         break;
       case eadk_event_ok:
         if(sel.active && !done) 
@@ -302,9 +302,9 @@ void mainloop()
     if(update) 
     {
       drawboard();
-      drawcursors(cur, sel);
       update=false;
     }
+    drawcursors(cur, sel);
     if(computer_move)
     {
       cur.active=false;
