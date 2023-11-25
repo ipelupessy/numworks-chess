@@ -5,7 +5,7 @@ Chess pieces are the Lichess Meastro theme pieces as found in the Pychess code b
 
 ## Installation
 
-You can upload the nwa file from the [release](https://github.com/ipelupessy/numworks-julia/releases) page to your calculator on [my.numworks.com/apps](https://my.numworks.com/apps).
+You can upload the nwa file from the [release](https://github.com/ipelupessy/numworks-chess/releases) page to your calculator on [my.numworks.com/apps](https://my.numworks.com/apps).
 
 ## Usage
 
